@@ -79,6 +79,9 @@ function generateCrud() {
 
 function createFiles(dirName, filenames) {
   filenames.forEach(function (filename) {
+    if (filename === 'base.module.ts' && !addModule) {
+        return;
+    }
     fs.readFile(baseDirname + filename, "utf-8", function (err, content) {
       if (err) {
         console.error(err);
