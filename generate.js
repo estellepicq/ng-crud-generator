@@ -1,28 +1,47 @@
 const fs = require("fs");
 const readline = require("readline");
-
 const baseDirname = "./base/";
+const path = require('path');
+
 let entity = "";
 let entityPlural = "";
 let mapping = {};
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+let newDirname = "";
+let addModule = false;
 
 prompt();
 
 /*** PRIVATE METHODS */
 function prompt() {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
   rl.question("What is the entity name (ex: product)? ", function (pEntity) {
     rl.question(
       "What is the plural of the entity name (ex: products)? ",
       function (pEntityPlural) {
-        entity = pEntity;
-        entityPlural = pEntityPlural;
-        mapping = generateMapping();
-        rl.close();
+        rl.question(
+          "Where to create the new folder (ex: shop)? ",
+          function (pNewDirname) {
+            rl.question(
+              "Do you want to create a module (y/n)? ",
+              function (pAddModule) {
+                if (!pEntity || !pEntityPlural || !pNewDirname || !pAddModule) {
+                    console.log("ERROR: Invalid configuration");
+                    rl.close();
+                    process.exit(1);
+                }
+                entity = pEntity;
+                entityPlural = pEntityPlural;
+                newDirname = pNewDirname;
+                mapping = generateMapping();
+                addModule = pAddModule === 'y';
+                rl.close();
+              }
+            );
+          }
+        );
       }
     );
   });
@@ -47,8 +66,8 @@ function generateCrud() {
       console.error(err);
       return;
     }
-    const dirName = mapping["base|lowercase"];
-    fs.mkdir(dirName, (err) => {
+    const dirName = `${newDirname}/${mapping["base|lowercase"]}`;
+    fs.mkdir(path.join(__dirname, dirName), { recursive: true }, (err) => {
       if (err) {
         console.error(err);
         return;
@@ -70,14 +89,14 @@ function createFiles(dirName, filenames) {
         filename,
         content
       );
-      writeFile(dirName, genFileName, genContent);
+      writeFile(genFileName, genContent);
     });
   });
 }
 
 function generateContent(dirName, filename, content) {
   // New file name
-  const genFileName = filename.replace("base", dirName);
+  const genFileName = dirName + '/' + filename.replace("base", mapping["base|lowercase"]);
   // New content
   let genContent = content;
   for (const mappingProperty in mapping) {
@@ -89,9 +108,8 @@ function generateContent(dirName, filename, content) {
   return { genFileName, genContent };
 }
 
-function writeFile(dirName, filename, content) {
-  const path = `./${dirName}/${filename}`;
-  fs.writeFile(path, content, (err) => {
+function writeFile(filename, content) {
+  fs.writeFile(filename, content, (err) => {
     if (err) {
       console.error(err);
       return;
