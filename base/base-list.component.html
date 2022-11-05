@@ -1,0 +1,14 @@
+<div class="app-frame">
+    <app-table class="table"
+      [tableData]="{{{base|plural}}}"
+      [totalRecords]="totalRecords"
+      [config]="config"
+      [entity]="entity"
+      [selectable]="true"
+      (deleted)="onDelete($event)"
+      (saved)="onSave($event)"
+      [loading]="loading"
+      [lazy]="true"
+      (lazyLoaded)="loadData($event)">
+    </app-table>
+  </div>
