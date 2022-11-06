@@ -17,15 +17,15 @@ function prompt() {
     input: process.stdin,
     output: process.stdout,
   });
-  rl.question("What is the entity name (ex: product)? ", function (pEntity) {
+  rl.question("1. What is the entity name (ex: product)? ", function (pEntity) {
     rl.question(
-      "What is the plural of the entity name (ex: products)? ",
+      "2. What is the plural of the entity name (ex: products)? ",
       function (pEntityPlural) {
         rl.question(
-          "Where to create the new folder (ex: shop)? ",
+          "3. Where to create the new folder, relative to ./src/app/ (ex: shop)? ",
           function (pNewDirname) {
             rl.question(
-              "Do you want to create a module (y/n)? ",
+              "4. Do you want to create a module (y/n)? ",
               function (pAddModule) {
                 if (!pEntity || !pEntityPlural || !pNewDirname || !pAddModule) {
                     console.log("ERROR: Invalid configuration");
@@ -66,7 +66,7 @@ function generateCrud() {
       console.error(err);
       return;
     }
-    const dirName = `${newDirname}/${mapping["base|lowercase"]}`;
+    const dirName = `./src/app/${newDirname}/${mapping["base|lowercase"]}`;
     fs.mkdir(path.join(__dirname, dirName), { recursive: true }, (err) => {
       if (err) {
         console.error(err);
