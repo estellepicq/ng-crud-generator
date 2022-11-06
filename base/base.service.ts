@@ -1,39 +1,57 @@
 import { Injectable } from '@angular/core';
-import { {{{base}}} } from './{{{base|lowercase}}}.class';
-import { {{{base}}}Dao } from './{{{base|lowercase}}}.dao';
-import { {{{base}}}PayloadDto, {{{base}}}Dto } from './{{{base|lowercase}}}-dto.model';
-// import { SnackbarService } from 'app/shared/snackbar/snackbar.service';
-import { Observable } from 'rxjs';
+import { {{{base}}} } from './{{{base_lowercase}}}.class';
+import { {{{base}}}Dao } from './{{{base_lowercase}}}.dao';
+import { {{{base}}}PayloadDto, {{{base}}}Dto } from './{{{base_lowercase}}}-dto.model';
+import { SnackbarService } from 'app/shared/snackbar/snackbar.service';
+import { Observable, tap } from 'rxjs';
 
 @Injectable()
 export class {{{base}}}Service {
 
   constructor(
-    private readonly {{{base|lowercase}}}Dao: {{{base}}}Dao,
-    // private readonly snackbarService: SnackbarService,
+    private readonly {{{base_lowercase}}}Dao: {{{base}}}Dao,
+    private readonly snackbarService: SnackbarService,
   ) { }
 
   public getMany(searchParams: {{{base}}}PayloadDto): Observable<{{{base}}}Dto> {
-    return this.{{{base|lowercase}}}Dao.getMany(searchParams);
+    return this.{{{base_lowercase}}}Dao.getMany(searchParams).pipe(
+      tap(this.handleError)
+    );
   }
 
   public getOne(id: string): Observable<{{{base}}}> {
-    return this.{{{base|lowercase}}}Dao.getOne(id);
+    return this.{{{base_lowercase}}}Dao.getOne(id).pipe(
+      tap(this.handleError)
+    );
   }
 
-  public create{{{base}}}(item: {{{base}}}): Observable<{ id: string }> {
-    return this.{{{base|lowercase}}}Dao.create(item);
+  public createOne{{{base}}}(item: {{{base}}}): Observable<{ id: string }> {
+    return this.{{{base_lowercase}}}Dao.createOne(item).pipe(
+      tap(this.handleError)
+    );
   }
 
-  public update(item: {{{base}}}): Observable<{ id: string }> {
-    return this.{{{base|lowercase}}}Dao.update(item);
+  public updateOne(item: {{{base}}}): Observable<{ id: string }> {
+    return this.{{{base_lowercase}}}Dao.updateOne(item).pipe(
+      tap(this.handleError)
+    );
   }
 
   public deleteOne(id: string): Observable<{ id: string }> {
-    return this.{{{base|lowercase}}}Dao.delete(id);
+    return this.{{{base_lowercase}}}Dao.deleteOne(id).pipe(
+      tap(this.handleError)
+    );
   }
 
   public deleteMany{{{base}}}(ids: string[]): Observable<{ ids: string[] }> {
-    return this.{{{base|lowercase}}}Dao.deleteMany(ids);
+    return this.{{{base_lowercase}}}Dao.deleteMany(ids).pipe(
+      tap(this.handleError)
+    );
+  }
+
+  private handleError(res: unknown): void {
+    if (!res) {
+      this.snackbarService.displayError();
+    }
   }
 }

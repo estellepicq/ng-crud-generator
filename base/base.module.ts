@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { {{{base}}}ListComponent } from './{{{base|lowercase}}}-list.component';
-import { {{{base}}}Dao } from './{{{base|lowercase}}}.dao';
-import { {{{base}}}Service } from './{{{base|lowercase}}}.service';
+import { {{{base}}}ListComponent } from './{{{base_lowercase}}}-list.component';
+import { {{{base}}}Dao } from './{{{base_lowercase}}}.dao';
+import { {{{base}}}Service } from './{{{base_lowercase}}}.service';
 
 @NgModule({
   declarations: [{{{base}}}ListComponent],

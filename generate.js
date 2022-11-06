@@ -54,19 +54,19 @@ function prompt() {
 function generateMapping() {
   return {
     base: entity.charAt(0).toUpperCase() + entity.slice(1), // capitalize
-    "base|lowercase": entity.toLowerCase(),
-    "base|uppercase": entity.toUpperCase(),
-    "base|plural": entityPlural,
+    base_lowercase: entity.toLowerCase(),
+    base_uppercase: entity.toUpperCase(),
+    base_plural: entityPlural,
   };
 }
 
 function generateCrud() {
-  fs.readdir(baseDirname, function (err, filenames) {
+  fs.readdir(path.join(__dirname, baseDirname), function (err, filenames) {
     if (err) {
       console.error(err);
       return;
     }
-    const dirName = `./src/app/${newDirname}/${mapping["base|lowercase"]}`;
+    const dirName = `${newDirname}/${mapping["base_lowercase"]}`;
     fs.mkdir(path.join(__dirname, dirName), { recursive: true }, (err) => {
       if (err) {
         console.error(err);
@@ -82,7 +82,7 @@ function createFiles(dirName, filenames) {
     if (filename === 'base.module.ts' && !addModule) {
         return;
     }
-    fs.readFile(baseDirname + filename, "utf-8", function (err, content) {
+    fs.readFile(path.join(__dirname, baseDirname) + filename, "utf-8", function (err, content) {
       if (err) {
         console.error(err);
         return;
@@ -99,14 +99,12 @@ function createFiles(dirName, filenames) {
 
 function generateContent(dirName, filename, content) {
   // New file name
-  const genFileName = dirName + '/' + filename.replace("base", mapping["base|lowercase"]);
+  const genFileName = dirName + '/' + filename.replace("base", mapping["base_lowercase"]);
   // New content
   let genContent = content;
   for (const mappingProperty in mapping) {
-    genContent = genContent.replaceAll(
-      `{{{${mappingProperty}}}}`,
-      mapping[mappingProperty]
-    );
+    const re = new RegExp(`{{{${mappingProperty}}}}`, "g");
+    genContent = genContent.replace(re, mapping[mappingProperty]);
   }
   return { genFileName, genContent };
 }

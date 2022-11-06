@@ -1,4 +1,4 @@
-import { {{{base}}} } from './{{{base|lowercase}}}.class';
+import { {{{base}}} } from './{{{base_lowercase}}}.class';
 
 export interface {{{base}}}Dto {
   data: {{{base}}}[];

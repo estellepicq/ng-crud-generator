@@ -4,22 +4,22 @@ import { BehaviorSubject } from 'rxjs';
 import { debounceTime, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { ConfirmationDialogService } from 'app/shared/dialog/confirmation-dialog.service';
 import { ObservableDestroyComponent } from 'app/shared/observable-destroy/observable-destroy.component';
-import { {{{base}}} } from './{{{base|lowercase}}}.class';
-import { {{{base}}}PayloadDto, {{{base}}}Dto } from './{{{base|lowercase}}}-dto.model';
-import { {{{base}}}Service } from './{{{base|lowercase}}}.service';
-import { {{{base|uppercase}}}_CONFIG } from './{{{base|lowercase}}}-config';
+import { {{{base}}} } from './{{{base_lowercase}}}.class';
+import { {{{base}}}PayloadDto, {{{base}}}Dto } from './{{{base_lowercase}}}-dto.model';
+import { {{{base}}}Service } from './{{{base_lowercase}}}.service';
+import { {{{base_uppercase}}}_CONFIG } from './{{{base_lowercase}}}-config';
 
 @Component({
-  selector: 'app-{{{base|lowercase}}}-list',
-  templateUrl: './{{{base|lowercase}}}-list.component.html',
-  styleUrls: ['./{{{base|lowercase}}}-list.component.scss']
+  selector: 'app-{{{base_lowercase}}}-list',
+  templateUrl: './{{{base_lowercase}}}-list.component.html',
+  styleUrls: ['./{{{base_lowercase}}}-list.component.scss']
 })
 export class {{{base}}}ListComponent extends ObservableDestroyComponent implements OnInit {
 
-  public readonly config = {{{base|uppercase}}}_CONFIG;
+  public readonly config = {{{base_uppercase}}}_CONFIG;
   public readonly entity = {{{base}}};
 
-  public {{{base|plural}}}: {{{base}}}[] = [];
+  public {{{base_plural}}}: {{{base}}}[] = [];
   public totalRecords: number;
   public loading = true;
 
@@ -28,7 +28,7 @@ export class {{{base}}}ListComponent extends ObservableDestroyComponent implemen
 
   constructor(
     private readonly confirmationDialogService: ConfirmationDialogService,
-    private readonly {{{base|lowercase}}}Service: {{{base}}}Service,
+    private readonly {{{base_lowercase}}}Service: {{{base}}}Service,
   ) {
     super();
   }
@@ -37,7 +37,7 @@ export class {{{base}}}ListComponent extends ObservableDestroyComponent implemen
     this.loadData$.pipe(
       tap(() => this.loading = true),
       debounceTime(500),
-      switchMap((event) => this.{{{base|lowercase}}}Service.getMany(event)),
+      switchMap((event) => this.{{{base_lowercase}}}Service.getMany(event)),
       takeUntil(this.destroyed$)
     ).subscribe(response => {
       this.setList(response);
@@ -59,7 +59,7 @@ export class {{{base}}}ListComponent extends ObservableDestroyComponent implemen
     const deleteCb = () => this.deleteMany(ids);
     this.confirmationDialogService.open(
       {
-        message: 'You are about to delete one or more {{{base|lowercase}}}. Continue?',
+        message: 'You are about to delete one or more {{{base_lowercase}}}. Continue?',
         accept: deleteCb
       },
     );
@@ -74,13 +74,13 @@ export class {{{base}}}ListComponent extends ObservableDestroyComponent implemen
   }
 
   private create(item: {{{base}}}): void {
-    this.{{{base|lowercase}}}Service.create(item).subscribe(response => {
+    this.{{{base_lowercase}}}Service.createOne(item).subscribe(response => {
       console.log(response);
     });
   }
 
   private update(item: {{{base}}}): void {
-    this.{{{base|lowercase}}}Service.update(item).subscribe(response => {
+    this.{{{base_lowercase}}}Service.updateOne(item).subscribe(response => {
       if (response.id) {
         this.loadData$.next(this.payload);
       }
@@ -88,7 +88,7 @@ export class {{{base}}}ListComponent extends ObservableDestroyComponent implemen
   }
 
   private deleteMany(ids: string[]): void {
-    this.{{{base|lowercase}}}Service.deleteMany(ids).subscribe(response => {
+    this.{{{base_lowercase}}}Service.deleteMany(ids).subscribe(response => {
       if (response.ids) {
         this.loadData$.next(this.payload);
       }
@@ -96,7 +96,7 @@ export class {{{base}}}ListComponent extends ObservableDestroyComponent implemen
   }
 
   private setList(response: {{{base}}}Dto): void {
-    this.{{{base|plural}}} = response?.data || [];
+    this.{{{base_plural}}} = response?.data || [];
     this.totalRecords = Number(response?.totalRecords || 0);
     this.loading = false;
   }
