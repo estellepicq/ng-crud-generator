@@ -5,10 +5,10 @@
       [config]="config"
       [entity]="entity"
       [selectable]="true"
-      (deleted)="onDelete($event)"
-      (saved)="onSave($event)"
       [loading]="loading"
       [lazy]="true"
-      (lazyLoaded)="loadData($event)">
+      (lazyLoaded)="loadData($event)"
+      (deleted)="onDelete($event)"
+      (saved)="onSave($event)">
     </app-table>
   </div>
