@@ -3,7 +3,6 @@ import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { catchError } from 'rxjs/operators';
-import { LazyLoadEvent } from 'primeng/api';
 import { {{{base}}} } from './{{{base_lowercase}}}.class';
 import { {{{base}}}PayloadDto, {{{base}}}Dto } from './{{{base_lowercase}}}-dto.model';
 
@@ -41,8 +40,8 @@ export class {{{base}}}Dao {
     );
   }
 
-  public deleteOne(id: string): Observable<{ ids: string[] }> {
-    return this.http.delete<{ ids: string[] }>(`${this.endPoint}/${id}`).pipe(
+  public deleteOne(id: string): Observable<{ id: string }> {
+    return this.http.delete<{ id: string }>(`${this.endPoint}/${id}`).pipe(
       catchError(() => of(null))
     );
   }

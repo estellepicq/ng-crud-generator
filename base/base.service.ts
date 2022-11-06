@@ -25,7 +25,7 @@ export class {{{base}}}Service {
     );
   }
 
-  public createOne{{{base}}}(item: {{{base}}}): Observable<{ id: string }> {
+  public createOne(item: {{{base}}}): Observable<{ id: string }> {
     return this.{{{base_lowercase}}}Dao.createOne(item).pipe(
       tap(this.handleError)
     );
@@ -43,13 +43,13 @@ export class {{{base}}}Service {
     );
   }
 
-  public deleteMany{{{base}}}(ids: string[]): Observable<{ ids: string[] }> {
+  public deleteMany(ids: string[]): Observable<{ ids: string[] }> {
     return this.{{{base_lowercase}}}Dao.deleteMany(ids).pipe(
       tap(this.handleError)
     );
   }
 
-  private handleError(res: unknown): void {
+  private handleError<T>(res: T): void {
     if (!res) {
       this.snackbarService.displayError();
     }

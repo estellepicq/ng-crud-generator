@@ -66,8 +66,8 @@ function generateCrud() {
       console.error(err);
       return;
     }
-    const dirName = `${newDirname}/${mapping["base_lowercase"]}`;
-    fs.mkdir(path.join(__dirname, dirName), { recursive: true }, (err) => {
+    const dirName = path.join('./src/app', `${newDirname}/${mapping["base_lowercase"]}`);
+    fs.mkdir(dirName, { recursive: true }, (err) => {
       if (err) {
         console.error(err);
         return;
