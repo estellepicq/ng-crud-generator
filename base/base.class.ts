@@ -1,4 +1,4 @@
-export class {{{base}}} {
+export class {{{base_capitalized}}} {
   id: string;
   // TODO: complete properties
 

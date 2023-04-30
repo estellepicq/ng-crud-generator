@@ -53,10 +53,11 @@ function prompt() {
 
 function generateMapping() {
   return {
-    base: entity.charAt(0).toUpperCase() + entity.slice(1), // capitalize
+    base_capitalized: entity.charAt(0).toUpperCase() + entity.slice(1), // capitalize
+    base_plural_capitalized: entityPlural.charAt(0).toUpperCase() + entityPlural.slice(1), // capitalize
     base_lowercase: entity.toLowerCase(),
     base_uppercase: entity.toUpperCase(),
-    base_plural: entityPlural,
+    base_plural: entityPlural.toLowerCase(),
   };
 }
 
@@ -66,7 +67,7 @@ function generateCrud() {
       console.error(err);
       return;
     }
-    const dirName = path.join('./src/app', `${newDirname}/${mapping["base_lowercase"]}`);
+    const dirName = path.join('./src/app', `${newDirname}/${mapping["base_plural"]}`);
     fs.mkdir(dirName, { recursive: true }, (err) => {
       if (err) {
         console.error(err);
@@ -99,7 +100,7 @@ function createFiles(dirName, filenames) {
 
 function generateContent(dirName, filename, content) {
   // New file name
-  const genFileName = dirName + '/' + filename.replace("base", mapping["base_lowercase"]);
+  const genFileName = `${dirName}/${filename.replace("base", mapping["base_lowercase"])}`;
   // New content
   let genContent = content;
   for (const mappingProperty in mapping) {

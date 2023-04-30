@@ -1,14 +1,10 @@
-import { {{{base}}} } from './{{{base_lowercase}}}.class';
+import { {{{base_capitalized}}} } from './{{{base_lowercase}}}.class';
+import { TableLazyLoadEvent } from 'app/shared/ui/table/table-lazyload-event.model';
 
-export interface {{{base}}}Dto {
-  data: {{{base}}}[];
+export interface {{{base_plural_capitalized}}}Dto {
+  data: {{{base_capitalized}}}[];
   totalRecords: string;
 }
 
-export interface {{{base}}}PayloadDto {
-  first: number;
-  rows: number;
-  sortOrder: -1 | 1;
-  sortField: string;
-  filters: string;
+export interface {{{base_plural_capitalized}}}PayloadDto extends TableLazyLoadEvent {
 }

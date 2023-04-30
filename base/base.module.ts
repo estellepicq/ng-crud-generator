@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
-import { {{{base}}}ListComponent } from './{{{base_lowercase}}}-list.component';
-import { {{{base}}}Dao } from './{{{base_lowercase}}}.dao';
-import { {{{base}}}Service } from './{{{base_lowercase}}}.service';
+import { {{{base_plural_capitalized}}}Component } from './{{{base_lowercase}}}.component';
+import { {{{base_plural_capitalized}}}Service } from './{{{base_lowercase}}}.service';
+import { SharedModule } from 'app/shared/shared.module';
 
 @NgModule({
-  declarations: [{{{base}}}ListComponent],
-  imports: [],
+  declarations: [{{{base_plural_capitalized}}}Component],
+  imports: [
+    SharedModule
+  ],
   providers: [
-    {{{base}}}Dao,
-    {{{base}}}Service
+    {{{base_plural_capitalized}}}Service
   ]
 })
-export class {{{base}}}Module { }
+export class {{{base_plural_capitalized}}}Module { }
